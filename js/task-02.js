@@ -17,4 +17,3 @@ for (let ingredient of ingredients) {
   listArray.push(ingredientsItem);
 }
 ingredientsList.append(...listArray);
-console.log(ingredientsList);
