@@ -1,40 +1,40 @@
-const parentDiv = document.getElementById("boxes");
+const boxes = document.getElementById("boxes");
 const controls = document.getElementById("controls");
 const createButton = controls.querySelector(["[data-create]"]);
 const destroyButton = controls.querySelector(["[data-destroy]"]);
 const input = controls.querySelector("input");
-let amountOfDivs = 0;
-const divCounts = [];
+let defaultSize = 30;
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
 
-function createBoxes(amount) {
-  let defaultSize = 20;
+const inputChangeValue = (e) => {
+  input.setAttribute("count", Number(e.currentTarget.value));
+};
+
+input.addEventListener("input", inputChangeValue);
+function createBoxes() {
+  let amount = Number(input.getAttribute("count"));
   for (let i = 0; i < amount; i++) {
     const box = document.createElement("div");
-    box.style.color = getRandomHexColor();
+    box.style.backgroundColor = getRandomHexColor();
     box.classList.add("box");
-
+    box.style.marginTop = 10 + "px";
     box.style.width = (defaultSize + 10).toString() + "px";
     box.style.height = (defaultSize + 10).toString() + "px";
-    divCounts.push(box);
+    boxes.append(box);
     defaultSize += 10;
   }
-  parentDiv.append(...divCounts);
 }
+
 function deleteChild() {
-  let child = parentDiv.lastElementChild;
-  while (child) {
-    parentDiv.removeChild(child);
-    child = parentDiv.lastElementChild;
-    amountOfDivs = 0;
-    input.value = "";
+  const children = document.querySelectorAll(".box");
+  for (let child of children) {
+    boxes.removeChild(child);
   }
+  defaultSize = 30;
+  input.value = "";
 }
-createButton.addEventListener("click", function (e) {
-  amountOfDivs = input.value;
-  createBoxes(amountOfDivs);
-});
+createButton.addEventListener("click", createBoxes);
 
 destroyButton.addEventListener("click", deleteChild);
