@@ -4,7 +4,7 @@ const createButton = controls.querySelector(["[data-create]"]);
 const destroyButton = controls.querySelector(["[data-destroy]"]);
 const input = controls.querySelector("input");
 let defaultSize = 0;
-let amountOfDivs;
+let amountOfDivs = 0;
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
@@ -12,7 +12,6 @@ function getRandomHexColor() {
 input.addEventListener("input", (event) => {
   input.setAttribute("count", Number(event.currentTarget.value));
   amountOfDivs = Number(input.getAttribute("count"));
-  console.log(amountOfDivs);
 });
 
 function createBoxes(amount) {
@@ -38,6 +37,8 @@ function deleteChild() {
     boxes.removeChild(child);
   }
 }
-createButton.addEventListener("click", createBoxes(amountOfDivs));
+createButton.addEventListener("click", function () {
+  createBoxes(amountOfDivs);
+});
 
 destroyButton.addEventListener("click", deleteChild);
